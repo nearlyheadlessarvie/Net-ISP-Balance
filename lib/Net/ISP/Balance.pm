@@ -337,13 +337,12 @@ sub set_routes_and_firewall {
     my $self = shift;
 
     $self->save_routing_and_firewall();
-
+    $self->_collect_interfaces_retry();
     # first disable forwarding and clear the routing and firewall tables
     $self->enable_forwarding(0);
     $self->_initialize_routes();
     $self->_initialize_firewall();
     $self->pre_run_rules();
-    $self->_collect_interfaces_retry();
     if ($self->isp_services) {
 	$self->set_routes();
 	$self->set_firewall();
